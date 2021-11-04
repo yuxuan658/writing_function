@@ -1,0 +1,118 @@
+---
+title: "writing_functions"
+author: "Yuxuan Chen"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+### Z socres
+```{r}
+x_vec = rnorm(25, mean = 5, sd = 4)
+(x_vec - mean(x_vec)) / sd(x_vec)
+
+z_scores = function(x) { #calling function as z_scores, with input x
+  
+  z = (x - mean(x)) / sd(x)
+  
+  return(z)
+}
+
+z_scores(x = x_vec)
+
+y_vec = rnorm(40, mean = 12, sd = .3)
+
+z_scores(y_vec) #don't have to put `x=`
+
+
+```
+
+
+Add conditions to function
+```{r}
+z_scores = function(x) { #calling function as z_scores, with input x
+  
+  if (!is.numeric(x)) {
+    stop("x need to be numeric") # break things: if x is not numeric, then stop and print "x need to be numeric"
+  }
+  
+  if (length(x) < 3) {
+    
+    stop("x should have at least 3 numbers")
+  }
+  
+  z = (x - mean(x)) / sd(x)
+  
+  return(z)
+}
+
+```
+
+```{rerror = TRUE}
+z_scores(3)
+z_scores(c("my", "name","is","jeff"))
+z_scores(mtcars)
+
+```
+
+### Muultiple outputs
+-> create output dataframe and return the `output dataframe`
+```{r}
+mean_and_sd = function(x) { #calling function as z_scores, with input x
+  
+  if (!is.numeric(x)) {
+    stop("x need to be numeric") # break things: if x is not numeric, then stop and print "x need to be numeric"
+  }
+  
+  if (length(x) < 3) {
+    stop("x should have at least 3 numbers")
+  }
+  
+  mena_x = mean(x)
+  sd_x = sd(x)
+  
+  output_df = 
+    tibble(
+      mean = mean_x,
+      sd = sd_x
+    )
+  return(output_df)
+}
+
+mean_and_sd(x_vec)
+mean_and_sd(y_vec)
+
+```
+
+
+```{r}
+
+mean_and_sd = function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("Argument x should be numeric")
+  } else if (length(x) == 1) {
+    stop("Cannot be computed for length 1 vectors")
+  }
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+
+  tibble(
+    mean = mean_x, 
+    sd = sd_x
+  )
+}
+mean_and_sd(x_vec)
+mean_and_sd(y_vec)
+```
+
+
+
+
+
+
+
+
